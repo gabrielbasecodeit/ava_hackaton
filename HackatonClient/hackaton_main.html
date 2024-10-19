@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avalanche MetaMask Connect</title>
+	<script src="https://cdn.jsdelivr.net/npm/web3@4.13.0/dist/web3.min.js"></script>
+</head>
+<body>
+
+    <!-- Button to trigger MetaMask connection -->
+    <button id="connectButton">Connect MetaMask</button>
+    
+    <!-- Display connected account -->
+    <p id="accountDisplay">Not connected</p>
+	<button id="sendDataButton">Send Data</button>
+    <!-- Link to your JavaScript file -->
+    <script src="hackaton_main.js"></script>
+	<script>
+        // Wait for the window to load
+        window.addEventListener('load', async () => {
+            if (typeof window.ethereum !== 'undefined') {
+                console.log('MetaMask is installed!');
+
+                // Use MetaMask's provider
+                const web3 = new Web3(window.ethereum);
+
+                async function connectMetaMask() {
+                    try {
+                        // Request account access
+                        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                        const selectedAccount = accounts[0];
+
+                        // Display the connected account
+                        document.getElementById('accountDisplay').innerText = `Connected account: ${selectedAccount}`;
+
+                        // Fetch the balance of the connected account
+                        const balance = await web3.eth.getBalance(selectedAccount);
+                        console.log(`Balance of ${selectedAccount}: ${web3.utils.fromWei(balance, 'ether')} ETH`);
+                    } catch (error) {
+                        console.error('Error connecting MetaMask:', error);
+                    }
+                }
+
+                // Add event listener to the button
+                document.getElementById('connectButton').addEventListener('click', connectMetaMask);
+
+            } else {
+                console.log('MetaMask is not installed!');
+                alert('Please install MetaMask to interact with this page.');
+            }
+        });
+    </script>
+</body>
+</html>
