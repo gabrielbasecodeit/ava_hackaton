@@ -1,0 +1,67 @@
+# Node modules
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Truffle artifacts
+/build/
+*.json
+!.gitkeep
+
+# Compiled source #
+###################
+# Build output
+/dist
+/lib
+/tmp
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Operating System files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+desktop.ini
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# IDE or Editor Configurations
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# Testing files
+*.spec.js
+*.test.js
+*.snap
+
+# Miscellaneous
+*.tgz
+*.zip
+*.tar
+*.rar
+
+# Compiled Python files
+__pycache__/
+*.py[cod]
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+
+# Ignore any other files you want to exclude
