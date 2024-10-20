@@ -42,10 +42,19 @@ router.get("/authorize_success", async (req, res) => {
         }
       );
       const { access_token, refresh_token } = response.data;
+
+      const tokensResponse = await axios.get(
+        "https://api.wiw.io/user/tokens/balance?addr=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee,0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+        {
+          headers: { Authorization: `Bearer ${access_token}` },
+        }
+      );
+
       res.json({
         message: "Authorization successful!",
         access_token: access_token,
         refresh_token: refresh_token,
+        tokens: tokensResponse.data
       });
     } catch (error) {
       console.error("Error retrieving tokens:", error);
