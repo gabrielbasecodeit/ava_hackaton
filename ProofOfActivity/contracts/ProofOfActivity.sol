@@ -62,8 +62,8 @@ contract ProofOfActivityEnhanced is Verifier, AccessControl {
     
     // Constructor to set up roles
     constructor() {
-        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender); // Deployer is the default admin
-        _setupRole(ADMIN_ROLE, msg.sender); // Deployer is also an admin
+        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender); // Deployer is the default admin
+        _grantRole(ADMIN_ROLE, msg.sender); // Deployer is also an admin
     }
     
     // Function to register a user
@@ -78,30 +78,17 @@ contract ProofOfActivityEnhanced is Verifier, AccessControl {
         emit UserRegistered(msg.sender, _role, block.timestamp);
     }
     
-    // Function to add a studio
-    function addStudio(address _studio) public onlyAdmin {
-        grantRole(STUDIO_ROLE, _studio);
-    }
-    
-    // Function to remove a studio
-    function removeStudio(address _studio) public onlyAdmin {
-        revokeRole(STUDIO_ROLE, _studio);
-    }
-    
     // Function to submit an activity with ZKP
     function submitActivityWithZKP(
         string memory _activityType,
         string memory _dataURI, // Reference to off-chain data (e.g., IPFS URI)
-        uint256[2] memory a,
-        uint256[2][2] memory b,
-        uint256[2] memory c,
-        uint256[] memory input
+        bytes memory proofData,
+        bytes memory input
     ) public {
         require(users[msg.sender].isActive, "User is not active");
         
         // Verify the proof using the Verifier contract
-        bool isValid = verifyProof(a, b, c, input);
-        require(isValid, "Invalid ZKP proof");
+        verifyProof(proofData,input);
         
         // Record the activity
         activityCount += 1;
@@ -148,17 +135,8 @@ contract ProofOfActivityEnhanced is Verifier, AccessControl {
         return 5 * 10**18; // Default reward
     }
     
-    // Function for studios to access playtest data
-    function getPlaytestData(uint256 _activityId) public view onlyStudio returns (Activity memory) {
-        Activity memory activity = activities[_activityId];
-        require(activity.id != 0, "Activity does not exist");
-        return activity;
-    }
-    
     // Function to retrieve a user's activities
     function getUserActivities(address _user) public view returns (uint256[] memory) {
         return userActivities[_user];
     }
-    
-    // Additional functions can be added as needed
 }

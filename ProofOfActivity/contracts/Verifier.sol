@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract ProofOfActivityEnhanced {
+contract Verifier {
     event ProofVerified(address indexed player, bool success);
 
-    function submitProof(bytes memory proofData, bytes memory publicInputs) public {
+    function verifyProof(bytes memory proofData, bytes memory publicInputs) public {
         bool success;
         
         assembly {
